@@ -1,5 +1,5 @@
 <beans>
     <bean class="movieUsecase.MovieLister">
-        <property value="movieUsecase.ColonMovieFinder"/>
+        <property value="movieUsecase.MovieFinderImpl"/>
     </bean>
 </beans>
