@@ -7,8 +7,8 @@ import java.util.List;
 public class MovieLister
 {
 	private MovieFinder finder;
-	public MovieLister(MovieFinder finder) {
-      this.finder = finder;       
+	public MovieLister(Object finder) {
+      this.finder = (MovieFinder) finder;       
 	}
 
     public Movie[] moviesDirectedBy(String arg) {

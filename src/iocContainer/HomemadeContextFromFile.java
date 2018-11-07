@@ -2,6 +2,7 @@ package iocContainer;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,17 +36,31 @@ public class HomemadeContextFromFile {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(inputFile);
         doc.getDocumentElement().normalize();
-        NodeList nList = doc.getElementsByTagName("property");
+        NodeList beanList = doc.getElementsByTagName("bean");
         
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node nNode = nList.item(i);
+        for (int i = 0; i < beanList.getLength(); i++) {
+            Node bean = beanList.item(i);
             
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-               Element eElement = (Element) nNode;
+            if (bean.getNodeType() == Node.ELEMENT_NODE) {
+               Element eElement = (Element) bean;
                Class clazz;
 				try {
 					clazz = Class.forName(eElement.getAttribute("class"));
-					this.homemadeContainer.register(eElement.getAttribute("name"), clazz);
+					
+					NodeList propertyList = eElement.getElementsByTagName("property");
+
+					Element property = (Element) propertyList.item(0);
+					Class argClass = Class.forName(property.getAttribute("value"));
+					Object instance;
+					try {
+						instance = clazz.getConstructor(Object.class).newInstance(argClass.newInstance());
+						this.homemadeContainer.register(clazz, instance);
+					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+							| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+						e.printStackTrace();
+					}
+					
+					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

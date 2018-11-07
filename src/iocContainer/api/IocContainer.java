@@ -4,11 +4,11 @@ import java.util.Map;
 
 public interface IocContainer {
 
-    <T> T resolve(String name) throws Exception;
+    Object resolve(String name) throws Exception;
 
-    <T> T resolve(Class<? extends T> clazz) throws Exception;
+    Object resolve(Class clazz) throws Exception;
 
-    Map<String, Object> getRegisteredProperties();
+    Map<Class, Object> getRegisteredProperties();
 
-    <T> void register(String beanName, Class<T> clazz);
+    void register(Class clazz, Object instance);
 }

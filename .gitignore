@@ -24,3 +24,5 @@ hs_err_pid*
 .project
 .settings/org.eclipse.jdt.core.prefs
 .classpath
+.DS_Store
+bin/movieUsecase/appContext.xml

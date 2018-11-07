@@ -1,1 +1,5 @@
-<property name="MovieFinder" class="movieUsecase.MovieFinderImpl"/>
+<beans>
+    <bean class="movieUsecase.MovieLister">
+        <property value="movieUsecase.ColonMovieFinder"/>
+    </bean>
+</beans>

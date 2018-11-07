@@ -7,31 +7,25 @@ import iocContainer.api.IocContainer;
 
 public class HomemadeContainer implements IocContainer{
 
-	private Map<String, Class> registeredProperties = new HashMap<>();
+	private Map<Class, Object> registeredProperties = new HashMap<>();
 	
 	@Override
-	public <T> void register(String propertyName, Class<T> clazz) {
-		this.registeredProperties.put(propertyName, clazz);
+	public void register(Class clazz, Object instance) {
+		this.registeredProperties.put(clazz, instance);
 	}
 	
 	@Override
-	public <T> T resolve(String propertyName) throws Exception{
-		Class<? extends T> bean = (Class<? extends T>) registeredProperties.get(propertyName);
-		
-		try {
-			return bean.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new Exception(e);
-		}
+	public Object resolve(Class clazz) throws Exception{
+		return registeredProperties.get(clazz);
 	}
 
 	@Override
-	public <T> T resolve(Class<? extends T> clazz) throws Exception {
-		return this.resolve(clazz.getSimpleName());
+	public Object resolve(String className) throws Exception {
+		return this.resolve(Class.forName(className));
 	}
 
 	@Override
-	public Map<String, Object> getRegisteredProperties() {
+	public Map<Class, Object> getRegisteredProperties() {
 		return Collections.unmodifiableMap(registeredProperties);
 	}
 	
