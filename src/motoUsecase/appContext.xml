@@ -1,0 +1,5 @@
+<beans>
+    <bean class="motoUsecase.MotoClassifier">
+        <property value="motoUsecase.A2MotorcyclesImpl"/>
+    </bean>
+</beans>
